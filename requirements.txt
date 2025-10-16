@@ -1,0 +1,17 @@
+# File: requirements.txt
+
+# Core libraries for data handling and ML
+pandas
+numpy
+scikit-learn
+joblib
+librosa
+praat-parselmouth
+xgboost
+lightgbm
+catboost
+streamlit
+matplotlib
+seaborn
+shutil
+tqdm
