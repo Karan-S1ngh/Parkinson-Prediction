@@ -13,11 +13,10 @@ warnings.filterwarnings('ignore')
 
 # Load Data
 try:
-    df = pd.read_csv('features_dataset.csv')
-    print(f" Successfully loaded features_dataset.csv ")
+    df = pd.read_csv('features_dataset_40mfcc.csv')
     print(f"Full dataset contains {df.shape[0]} samples.")
 except FileNotFoundError:
-    print("ERROR: 'features_dataset.csv' not found. Please run the preparation and feature extraction scripts first.")
+    print("ERROR: 'features_dataset_40mfcc.csv' not found. Please run the preparation and feature extraction scripts first.")
 
 
 # Data Cleaning and Preparation
@@ -36,7 +35,7 @@ le = LabelEncoder()
 y = le.fit_transform(y_labels)
 
 # Split Data into Training and Testing Sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42, stratify=y)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
 print(f"\nData split into {len(X_train)} training samples and {len(X_test)} testing samples.")
 
 # Feature Scaling

@@ -7,35 +7,25 @@ import os
 from tqdm import tqdm
 
 def extract_all_features(file_path):
-
     # Initialize all features to NaN
-    features = {
-        'mfcc_1': np.nan, 'mfcc_2': np.nan, 'mfcc_3': np.nan, 'mfcc_4': np.nan,
-        'mfcc_5': np.nan, 'mfcc_6': np.nan, 'mfcc_7': np.nan, 'mfcc_8': np.nan,
-        'mfcc_9': np.nan, 'mfcc_10': np.nan, 'mfcc_11': np.nan, 'mfcc_12': np.nan,
-        'mfcc_13': np.nan, 'spectral_centroid': np.nan, 'spectral_bandwidth': np.nan,
-        'spectral_rolloff': np.nan, 'rms_energy': np.nan, 'mean_pitch': np.nan,
-        'jitter_local': np.nan, 'shimmer_local': np.nan, 'hnr': np.nan
-    }
+    # --- CHANGE: Initialized 40 MFCCs ---
+    features = {f'mfcc_{i+1}': np.nan for i in range(40)} 
     
-    
-    # 40 mfccs
-    # features = {f'mfcc_{i+1}': np.nan for i in range(40)} 
-    
-    # # Add other feature keys
-    # extra_features = ['spectral_centroid', 'spectral_bandwidth', 'spectral_rolloff',
-    #                   'rms_energy', 'mean_pitch', 'jitter_local', 'shimmer_local', 'hnr']
-    # for f in extra_features:
-    #     features[f] = np.nan
-
-    
+    # Add other feature keys
+    extra_features = ['spectral_centroid', 'spectral_bandwidth', 'spectral_rolloff',
+                      'rms_energy', 'mean_pitch', 'jitter_local', 'shimmer_local', 'hnr']
+    for f in extra_features:
+        features[f] = np.nan
 
     # Librosa Features
     try:
         y, sr = librosa.load(file_path, sr=16000)
-
-        mfccs = np.mean(librosa.feature.mfcc(y=y, sr=sr, n_mfcc=13).T, axis=0)
-        for i in range(13):
+        
+        # --- CHANGE: Set n_mfcc=40 ---
+        mfccs = np.mean(librosa.feature.mfcc(y=y, sr=sr, n_mfcc=40).T, axis=0)
+        
+        # --- CHANGE: Loop for 40 MFCCs ---
+        for i in range(40):
             features[f'mfcc_{i+1}'] = mfccs[i]
 
         features['spectral_centroid'] = np.mean(librosa.feature.spectral_centroid(y=y, sr=sr))
@@ -45,7 +35,7 @@ def extract_all_features(file_path):
     except Exception as e:
         print(f"Could not process Librosa features for {os.path.basename(file_path)}: {e}")
 
-    # Parselmouth Features
+    # Parselmouth Features (No changes here)
     try:
         sound = parselmouth.Sound(file_path)
         pitch = sound.to_pitch()
@@ -61,16 +51,18 @@ def extract_all_features(file_path):
         harmonicity = call(sound, "To Harmonicity (cc)", 0.01, 75, 0.1, 1.0)
         features['hnr'] = call(harmonicity, "Get mean", 0, 0)
     except Exception as e:
+        # Pass silently on Parselmouth errors to avoid clutter
         pass
 
     return features
 
+# --- Main Script Logic (Output filename changed) ---
 
 input_csv_path = 'master_labels.csv'
 df = pd.read_csv(input_csv_path)
 all_features = []
 
-print("Starting final feature extraction...")
+print("Starting feature extraction for 40 MFCCs...")
 for index, row in tqdm(df.iterrows(), total=df.shape[0]):
     file_path = row['original_path']
     features = extract_all_features(file_path)
@@ -79,7 +71,8 @@ for index, row in tqdm(df.iterrows(), total=df.shape[0]):
 features_df = pd.DataFrame(all_features)
 final_df = pd.concat([df.reset_index(drop=True), features_df.reset_index(drop=True)], axis=1)
 
-output_csv_path = 'features_dataset.csv'
+# --- CHANGE: New output filename ---
+output_csv_path = 'features_dataset_40mfcc.csv'
 final_df.to_csv(output_csv_path, index=False)
 
 print(f"\nFeature extraction complete! The final dataset is saved as '{output_csv_path}'")

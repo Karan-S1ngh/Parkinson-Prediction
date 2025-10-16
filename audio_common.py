@@ -6,8 +6,6 @@ folders_to_process = [
     # data
     {'path': r"data\Raw Audio\Healthy", 'label': "Healthy"},
     {'path': r"data\Raw Audio\Parkinson", 'label': "Parkinson's"},
-    {'path': r"data\Raw Audio\Parkinson Dialogue", 'label': "Parkinson's"},
-    {'path': r"data\Raw Audio\Parkinson Read", 'label': "Parkinson's"},
 
     # Parkinson Multi Model DATASET
     {'path': r"Parkinson Multi Model DATASET\Healthy\AUDIO 1 HEALTHY", 'label': "Healthy"},

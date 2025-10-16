@@ -7,17 +7,16 @@ import warnings
 warnings.filterwarnings('ignore')
 
 try:
-    df = pd.read_csv('features_dataset.csv')
+    df = pd.read_csv('features_dataset_40mfcc.csv')
 except FileNotFoundError:
-    print("ERROR: 'features_dataset.csv' not found.")
-    
+    print("ERROR: 'features_dataset_40mfcc.csv' not found.")
 
 # Statistical Comparison
 features = [
     'rms_energy', 'jitter_local', 'spectral_bandwidth', 'spectral_rolloff', 'mean_pitch',
     'spectral_centroid', 'chroma_stft', 'spectral_contrast', 'mfcc_1', 'mfcc_2', 'mfcc_3', 
     'mfcc_4', 'mfcc_5', 'mfcc_6', 'mfcc_7', 'mfcc_8', 
-    'mfcc_9', 'mfcc_10', 'mfcc_11', 'mfcc_12', 'mfcc_13', 
+    'mfcc_9' 
 ]
 existing_key_features = [f for f in features if f in df.columns and df[f].notna().any()]
 
