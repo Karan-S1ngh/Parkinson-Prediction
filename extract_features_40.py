@@ -8,12 +8,11 @@ from tqdm import tqdm
 
 def extract_all_features(file_path):
     # Initialize all features to NaN
-    # --- CHANGE: Initialized 40 MFCCs ---
     features = {f'mfcc_{i+1}': np.nan for i in range(40)} 
     
     # Add other feature keys
     extra_features = ['spectral_centroid', 'spectral_bandwidth', 'spectral_rolloff',
-                      'rms_energy', 'mean_pitch', 'jitter_local', 'shimmer_local', 'hnr']
+                      'rms_energy', 'mean_pitch', 'jitter_local']
     for f in extra_features:
         features[f] = np.nan
 
@@ -21,10 +20,8 @@ def extract_all_features(file_path):
     try:
         y, sr = librosa.load(file_path, sr=16000)
         
-        # --- CHANGE: Set n_mfcc=40 ---
         mfccs = np.mean(librosa.feature.mfcc(y=y, sr=sr, n_mfcc=40).T, axis=0)
         
-        # --- CHANGE: Loop for 40 MFCCs ---
         for i in range(40):
             features[f'mfcc_{i+1}'] = mfccs[i]
 
@@ -46,17 +43,11 @@ def extract_all_features(file_path):
         n_pulses = call(point_process, "Get number of points")
         if n_pulses >= 2:
             features['jitter_local'] = call(point_process, "Get jitter (local)", 0, 0, 0.0001, 0.02, 1.3)
-            features['shimmer_local'] = call(point_process, "Get shimmer (local)", 0, 0, 0.0001, 0.02, 1.3, 1.6)
 
-        harmonicity = call(sound, "To Harmonicity (cc)", 0.01, 75, 0.1, 1.0)
-        features['hnr'] = call(harmonicity, "Get mean", 0, 0)
     except Exception as e:
-        # Pass silently on Parselmouth errors to avoid clutter
         pass
 
     return features
-
-# --- Main Script Logic (Output filename changed) ---
 
 input_csv_path = 'master_labels.csv'
 df = pd.read_csv(input_csv_path)
@@ -71,7 +62,6 @@ for index, row in tqdm(df.iterrows(), total=df.shape[0]):
 features_df = pd.DataFrame(all_features)
 final_df = pd.concat([df.reset_index(drop=True), features_df.reset_index(drop=True)], axis=1)
 
-# --- CHANGE: New output filename ---
 output_csv_path = 'features_dataset_40mfcc.csv'
 final_df.to_csv(output_csv_path, index=False)
 

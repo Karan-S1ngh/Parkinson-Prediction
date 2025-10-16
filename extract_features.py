@@ -15,7 +15,7 @@ def extract_all_features(file_path):
         'mfcc_9': np.nan, 'mfcc_10': np.nan, 'mfcc_11': np.nan, 'mfcc_12': np.nan,
         'mfcc_13': np.nan, 'spectral_centroid': np.nan, 'spectral_bandwidth': np.nan,
         'spectral_rolloff': np.nan, 'rms_energy': np.nan, 'mean_pitch': np.nan,
-        'jitter_local': np.nan, 'shimmer_local': np.nan, 'hnr': np.nan
+        'jitter_local': np.nan
     }
     
     
@@ -56,10 +56,6 @@ def extract_all_features(file_path):
         n_pulses = call(point_process, "Get number of points")
         if n_pulses >= 2:
             features['jitter_local'] = call(point_process, "Get jitter (local)", 0, 0, 0.0001, 0.02, 1.3)
-            features['shimmer_local'] = call(point_process, "Get shimmer (local)", 0, 0, 0.0001, 0.02, 1.3, 1.6)
-
-        harmonicity = call(sound, "To Harmonicity (cc)", 0.01, 75, 0.1, 1.0)
-        features['hnr'] = call(harmonicity, "Get mean", 0, 0)
     except Exception as e:
         pass
 
