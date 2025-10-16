@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, LabelEncoder
-from sklearn.ensemble import RandomForestClassifier
+from xgboost import XGBClassifier
 import matplotlib.pyplot as plt
 import seaborn as sns
 import warnings
@@ -26,7 +26,7 @@ scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 
 # Training Random Forest model to get feature importances
-model = RandomForestClassifier(n_estimators=100, random_state=42)
+model = XGBClassifier(n_estimators=100, random_state=42)
 model.fit(X_scaled, y)
 
 # Feature Importances

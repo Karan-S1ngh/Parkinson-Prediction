@@ -6,6 +6,7 @@ from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import classification_report, confusion_matrix
+from xgboost import XGBClassifier
 import warnings
 
 warnings.filterwarnings('ignore')
@@ -50,7 +51,8 @@ models = {
     "SVM": SVC(kernel='rbf', random_state=42),
     "Gradient Boosting": GradientBoostingClassifier(random_state=42),
     "Logistic Regression": LogisticRegression(random_state=42),
-    "K-Nearest Neighbors": KNeighborsClassifier(n_neighbors=5)
+    "K-Nearest Neighbors": KNeighborsClassifier(n_neighbors=5),
+    "XGBoost": XGBClassifier(use_label_encoder=False, eval_metric='mlogloss')
 }
 
 for name, model in models.items():
