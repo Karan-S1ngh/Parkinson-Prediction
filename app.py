@@ -10,16 +10,13 @@ import joblib
 import os
 import tempfile
 
-# --- CONFIGURATION ---
 MODEL_DIR = 'model_assets'
 TEMP_DIR = "temp_uploads"
 os.makedirs(TEMP_DIR, exist_ok=True)
 
-# --- LOAD SAVED ASSETS ---
 # Use st.cache_resource to load these only once and speed up the app
 @st.cache_resource
 def load_assets():
-    """Loads all necessary machine learning assets from the model_assets directory."""
     try:
         model = joblib.load(os.path.join(MODEL_DIR, 'best_model.joblib'))
         scaler = joblib.load(os.path.join(MODEL_DIR, 'scaler.joblib'))
@@ -34,7 +31,6 @@ def load_assets():
 # Load all assets
 model, scaler, imputer, label_encoder, feature_names = load_assets()
 
-# --- FEATURE EXTRACTION FUNCTION (copied from your script) ---
 def extract_all_features(file_path):
     """
     Extracts a comprehensive set of voice features from an audio file.
@@ -77,7 +73,7 @@ def extract_all_features(file_path):
 
     return features
 
-# --- STREAMLIT APP INTERFACE ---
+# STREAMLIT APP INTERFACE
 st.set_page_config(page_title="Parkinson's Voice Analysis", layout="wide")
 st.title("🔬 Parkinson's Disease Prediction via Voice Analysis")
 st.write("Upload a short voice recording (e.g., sustaining the 'aah' sound) to analyze for potential signs of Parkinson's Disease.")
