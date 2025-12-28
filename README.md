@@ -31,7 +31,6 @@ This project aggregates heterogeneous speech datasets, extracts advanced acousti
 * [Web Application](#web-application)
 * [Future Work](#future-work)
 * [Contributing](#contributing)
-* [Citation](#citation)
 
 ## 📌 Project Overview
 
