@@ -127,34 +127,36 @@ Upload a `.wav` or `.mp3` file of sustained vowel phonation → get prediction i
 
 ## 🏗 Pipeline Architecture
 
-Raw Audio Datasets (PC-GITA, Multi-modal Sources)
+Raw Audio Datasets
+(PC-GITA, Multi-modal Sources)
         ↓
 Data Aggregation
 → master_labels.csv
-   (audio_common.py)
+  (audio_common.py)
         ↓
 Feature Extraction
 → features_dataset_40mfcc.csv
-   (extract_features_40.py)
+  (extract_features_40.py)
         ↓
 Exploratory Data Analysis (EDA)
 → Statistical summaries & visualizations
-   (eda.py)
+  (eda.py)
         ↓
 Preprocessing
 → Feature scaling & median imputation
-   (train_models.py)
+  (train_models.py)
         ↓
 Model Training & Evaluation
 → 10 machine learning classifiers
         ↓
 Best Model Selection
 → CatBoost + serialized assets
-   (model_assets/)
+  (model_assets/)
         ↓
 Deployment
 → Streamlit Web Application
-   (app.py)
+  (app.py)
+
 
 
 
