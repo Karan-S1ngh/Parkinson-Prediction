@@ -126,7 +126,7 @@ Upload a `.wav` or `.mp3` file of sustained vowel phonation → get prediction i
 ---
 
 ## 🏗 Pipeline Architecture
-
+"""
 Raw Audio Datasets
       ↓
 Aggregation → master_labels.csv (audio_common.py)
@@ -142,6 +142,7 @@ Model Training & Evaluation → 10 classifiers
 Best Model (CatBoost) + Assets → model_assets/
       ↓
 Deployment → Streamlit Web App (app.py) 
+"""
 
 ## 📊 Results
 
