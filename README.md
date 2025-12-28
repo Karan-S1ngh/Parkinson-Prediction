@@ -41,7 +41,7 @@ The pipeline achieves **91.2% weighted F1-score** across heterogeneous datasets 
 ## 🎥 Demo
 
 Try the live demo:
-🔗 **[Parkinson Prediction App](https://parkinson-prediction.streamlit.app/)** (if hosted)
+🔗 **[Parkinson Prediction App](https://parkinson-diease-prediction.streamlit.app/)** 
 
 OR run locally:
 
